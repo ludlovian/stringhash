@@ -3,6 +3,8 @@ export default class StringHash {
   #seed
   #strings = new Map() // string -> token
   #tokens = new Map() // token -> string
+  #stats = { size: 0, collisions: 0 }
+
   constructor ({
     size = 31 // how many bits wide
   } = {}) {
@@ -23,6 +25,14 @@ export default class StringHash {
     return this.#strings.has(string)
   }
 
+  get stats () {
+    return this.#stats
+  }
+
+  get entries () {
+    return this.#tokens.entries()
+  }
+
   store (string) {
     if (typeof string !== 'string') throw new TypeError('Not a string')
     let token = this.#strings.get(string)
@@ -31,10 +41,12 @@ export default class StringHash {
     for (let i = 0; i <= this.#mask; i++) {
       token = (base + i) & this.#mask
       if (!this.#tokens.has(token)) {
+        this.#stats.size++
         this.#tokens.set(token, string)
         this.#strings.set(string, token)
         return token
       }
+      this.#stats.collisions++
     }
     throw new Error('No space')
   }
@@ -46,6 +58,7 @@ export default class StringHash {
   clear () {
     this.#tokens.clear()
     this.#strings.clear()
+    this.#stats = { size: 0, collisions: 0 }
   }
 
   #calcHash (string, n) {

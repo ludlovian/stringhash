@@ -28,3 +28,11 @@ recognised
 ### .clear ()
 
 Empties the hash
+
+### .stats => { size, collisions }
+
+Returns some stats
+
+### .entries => MapIterator<[token, string]>
+
+Allows you to see the token -> string map entries

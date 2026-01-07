@@ -41,6 +41,15 @@ suite('StringHash', () => {
       tokens.add(h.store(`foo${i}`))
     }
     assert.strictEqual(tokens.size, 16)
+    assert.strictEqual(h.stats.size, 16)
+  })
+
+  test('.entries', () => {
+    const h = new StringHash()
+    const str = 'foobar'
+    const tok = h.store(str)
+    const entries = Array.from(h.entries)
+    assert.deepStrictEqual(entries, [[tok, str]])
   })
 
   suite('errors', () => {
