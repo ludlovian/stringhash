@@ -19,6 +19,10 @@ export default class StringHash {
     this.#seed = this.#calcHash('string.hash.seed', 0)
   }
 
+  has (string) {
+    return this.#strings.has(string)
+  }
+
   store (string) {
     if (typeof string !== 'string') throw new TypeError('Not a string')
     let token = this.#strings.get(string)

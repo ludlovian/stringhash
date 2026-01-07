@@ -6,10 +6,14 @@ import StringHash from '../src/index.mjs'
 suite('StringHash', () => {
   test('simple store & retrieve', () => {
     const h = new StringHash()
-    const exp = 'foobar'
-    const tok = h.store(exp)
-    const act = h.retrieve(tok)
-    assert.strictEqual(act, exp)
+    const str = 'foobar'
+
+    assert.strictEqual(h.has(str), false)
+
+    const tok = h.store(str)
+
+    assert.strictEqual(h.has(str), true)
+    assert.strictEqual(h.retrieve(tok), str)
   })
 
   test('multiple store gives same token', () => {
